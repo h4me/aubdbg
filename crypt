@@ -1,0 +1,47 @@
+#!/bin/bash
+
+list=`cat gpg_files.txt`
+
+pack() {
+
+   list=`cat gpg_files.txt`
+
+   rm -rf  *.gpg 
+   for f in $list ; do 
+   echo $f 
+   gpg --armor --output $f.gpg --encrypt --recipient pablo.piotrowicz@gmail.com $f
+ 
+#    gpg --output $f --decrypt $f.gpg
+   done
+}
+
+
+unpack() {
+
+
+    rm -rf $f
+list=`cat gpg_files.txt`
+    for f in $list ; do
+    echo $f 
+    gpg --output $f --decrypt $f.gpg
+done
+}
+
+if [[ $# -eq 0 ]] ; then
+    echo 'crypt [ pack | unpack ]'
+    exit 1
+fi
+
+if [[ $1 = "pack" ]] ; then
+    pack;
+    exit 0     
+fi
+
+
+if [[ $1 = "unpack" ]] ; then
+   unpack;
+   exit 0
+fi
+
+echo "Invalid args"
+
